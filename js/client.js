@@ -4,9 +4,15 @@ $(document).ready(function(){
        if(evt.which == 13) sendmsg();
    });    
 });
+
 var currentuser = "headquarter";
-$('#recname').html('Vehicle '+choice);
-            
+if(choice!=5)
+	$('#recname').html('Vehicle '+choice);
+else{
+	var x = document.getElementById("hideit");
+    x.style.visibility="hidden";	
+	$('#recname').html('Broadcast Message');
+}
 var firebase = new Firebase("https://transport-tracker-affaa.firebaseio.com");
 var db = '';
 //$('#userlist #loader').show();
@@ -86,10 +92,22 @@ function sendmsg(){
         msg = replace(msg,"^_^",'pyaara');
         msg = replace(msg,"(devil)",'wickedhappy');
         
-        messages.push({
-            user: "headquarter",
-            msg : msg
-        });
+		if(choice==5){
+			for(var i=1;i<=4;i++){
+				var m = firebase.child('chat/'+i);
+				m.push({
+					user: "headquarter",
+					message : msg
+				});
+			}
+		}		
+		
+		messages.push({
+			user: "headquarter",
+			message : msg
+		});
+		
+		
         animatescroll();
         _('msg').value = '';
     }
@@ -103,10 +121,10 @@ messages.on('value',function(s){
     for(message in msgrecap){
         if(!msgrecap.hasOwnProperty(message)) continue;
         if(msgrecap[message].user=="headquarter"){
-            _('msgframe').innerHTML += "<div class='sendcont'><div class='sent'>"+msgrecap[message].msg+"</div></div>";
+            _('msgframe').innerHTML += "<div class='sendcont'><div class='sent'>"+msgrecap[message].message+"</div></div>";
         }
         else{
-            _('msgframe').innerHTML += "<div class='recievedcont'><div class='recieved'>"+msgrecap[message].msg+"</div></div>";
+            _('msgframe').innerHTML += "<div class='recievedcont'><div class='recieved'>"+msgrecap[message].message+"</div></div>";
             
             if(msgrefresh >0)_('msgincoming').play();
         }
@@ -124,3 +142,46 @@ function replace(msg , key , cl){
 function _(el){
     return document.getElementById(el);
 }
+
+var fb = firebase.child('users/'+choice+'/uid');
+
+fb.on('value',function(s){
+    var uid = s.val();
+	var locTime;
+	
+	var loc = firebase.child('locations/'+uid);
+	console.log('locations/'+uid);
+	
+	loc.on('value',function(s){
+		var val = s.val();
+		var x = val.speed * 3.6;
+		locTime = val.time;
+		document.getElementById('speed').innerHTML = x.toFixed(2)+' kph';
+	});
+	
+	var loc2 = firebase.child('distance/'+uid);
+
+	loc2.on('value',function(s){
+		var val = s.val();
+		var x = val.dist/1000.0;
+		var y = val.dist24/1000.0;
+		
+		document.getElementById('dist').innerHTML = x.toFixed(2)+' k.m.';
+		document.getElementById('dist24').innerHTML = y.toFixed(2)+' k.m.';
+		
+		var time = locTime - val.lastTime;
+		console.log("time="+time);
+		if(time>86400000){
+			loc2.child("dist24").set(0);
+			loc2.child("lastTime").set(locTime);	
+			var ref = firebase.child('chat/'+choice);
+			ref.remove();
+		}
+			
+		
+	});
+	
+	
+});
+
+

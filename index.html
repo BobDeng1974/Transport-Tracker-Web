@@ -1,10 +1,36 @@
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
+</head>
+<body ng-app="BlankApp" ng-cloak>
+  <!--
+    Your HTML content here
+  -->  
+  
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+  
+  <!-- Your application bootstrap  -->
+  <script type="text/javascript">    
+    /**
+     * You must include the dependency on 'ngMaterial' 
+     */
+    angular.module('BlankApp', ['ngMaterial', 'ngMessages']);
+  </script>
 <div id="map"></div>
 <table align='center' cellpadding="10" style='padding:10px'>
     <tr>
         <td> </td>
 		<td>
 
-            <button onClick="buttonAllClicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
+            <button id="vpAll" onClick="buttonAllClicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
 border-radius: 4px;">
                 <center> <br> Overview <br> All Vehicle </center>
                 </button>
@@ -13,7 +39,7 @@ border-radius: 4px;">
 
         <td>
 
-            <button onClick="button1Clicked()" style="color: white;width:100px;height:70px;background-color: #040761;;
+            <button id="vp1" onClick="button1Clicked()" style="color: white;width:100px;height:70px;background-color: #040761;;
 border-radius: 4px;">
                 <center> <br> Vehicle 1 <br> Position </center>
                 </button>
@@ -21,7 +47,7 @@ border-radius: 4px;">
         </td>
         <td>
 
-            <button onClick="button2Clicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
+            <button id="vp2" onClick="button2Clicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
 border-radius: 4px;">
                 <center> <br> Vehicle 2 <br> Position </center>
                 </button>
@@ -30,7 +56,7 @@ border-radius: 4px;">
 
         <td>
 
-            <button onClick="button3Clicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
+            <button id="vp3" onClick="button3Clicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
 border-radius: 4px;">
                 <center> <br> Vehicle 3 <br> Position </center>
                 </button>
@@ -39,10 +65,18 @@ border-radius: 4px;">
 		
 		<td>
 
-            <button onClick="button4Clicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
+            <button id="vp4" onClick="button4Clicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
 border-radius: 4px;">
                 <center> <br> Vehicle 4 <br> Position </center>
                 </button>
+
+        </td>
+		<td>
+
+            <button id="fullMap" onClick="buttonSeeMapClicked()"  style="color: white;width:100px;height:70px;background-color: #040761;;
+border-radius: 4px;">
+                <center> <br> See <br> Full Map </center>
+            </button>
 
         </td>
 		<td>
@@ -78,9 +112,16 @@ border-radius: 4px;">
                 <center> <br> Vehicle 4 <br> Chat </center>
                 </button>
 
-        </td>
+		</td>
 		
 		<td>
+
+            <button onClick="buttonBroadClicked()"  style="color: white;width:100px;height:70px;background-color: 	#FF0000;;
+border-radius: 4px;">
+                <center> <br> Broadcast<br>Message</center>
+                </button>
+
+        </td>
 		
 		</td>
     </tr>
@@ -113,6 +154,8 @@ border-radius: 4px;">
 
 
 </table>
+<audio src="assets/siren.mp3" loop="true" id='siren' type="audio/mp3"></audio>
+</body>
 <!-- Replace the value of the key parameter with your own API key. -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrw_K0_t8zYQO4rp596zclMXdghiEtTe4&callback=initMap">
 </script>
@@ -131,29 +174,42 @@ border-radius: 4px;">
 <script>
 function button11Clicked() {
 window.open(
-  'http://localhost/tracker/chat.php?choice=1',
+  './chat.php?choice=1',
   '_blank' // <- This is what makes it open in a new window.
 );
 }
 function button21Clicked() {
 window.open(
-  'http://localhost/tracker/chat.php?choice=2',
+  './chat.php?choice=2',
   '_blank' // <- This is what makes it open in a new window.
 );
 }
 function button31Clicked() {
 window.open(
-  'http://localhost/tracker/chat.php?choice=3',
+  './chat.php?choice=3',
   '_blank' // <- This is what makes it open in a new window.
 );
 }
 function button41Clicked() {
 window.open(
-  'http://localhost/tracker/chat.php?choice=4',
+  './chat.php?choice=4',
   '_blank' // <- This is what makes it open in a new window.
 );
 }
+
+function buttonBroadClicked() {
+window.open(
+  './chat.php?choice=5',
+  '_blank' // <- This is what makes it open in a new window.
+);
+}
+
 function button1Clicked() {
+	document.getElementById("vpAll").style.background = "#040761";
+	document.getElementById("vp1").style.background = "blue";
+	document.getElementById("vp2").style.background = "#040761";
+	document.getElementById("vp3").style.background = "#040761";
+	document.getElementById("vp4").style.background = "#040761";
     choice = 1;
 	initMap();
 	marker2.setPosition(null);
@@ -164,6 +220,11 @@ function button1Clicked() {
 }
 
 function button2Clicked() {
+document.getElementById("vpAll").style.background = "#040761";
+	document.getElementById("vp1").style.background = "#040761";
+	document.getElementById("vp2").style.background = "blue";
+	document.getElementById("vp3").style.background = "#040761";
+	document.getElementById("vp4").style.background = "#040761";
     choice = 2;
 	initMap();
 	marker1.setPosition(null);
@@ -174,6 +235,11 @@ function button2Clicked() {
 }
 
 function button3Clicked() {
+document.getElementById("vpAll").style.background = "#040761";
+	document.getElementById("vp1").style.background = "#040761";
+	document.getElementById("vp2").style.background = "#040761";
+	document.getElementById("vp3").style.background = "blue";
+	document.getElementById("vp4").style.background = "#040761";
     choice = 3;
 	initMap();
 	marker2.setPosition(null);
@@ -184,6 +250,11 @@ function button3Clicked() {
 }
 
 function button4Clicked() {
+document.getElementById("vpAll").style.background = "#040761";
+	document.getElementById("vp1").style.background = "#040761";
+	document.getElementById("vp2").style.background = "#040761";
+	document.getElementById("vp3").style.background = "#040761";
+	document.getElementById("vp4").style.background = "blue";
     choice = 4;
 	initMap();
 	marker2.setPosition(null);
@@ -194,8 +265,23 @@ function button4Clicked() {
 }
 
 function buttonAllClicked() {
+	document.getElementById("vpAll").style.background = "blue";
+	document.getElementById("vp1").style.background = "#040761";
+	document.getElementById("vp2").style.background = "#040761";
+	document.getElementById("vp3").style.background = "#040761";
+	document.getElementById("vp4").style.background = "#040761";
 	choice = 0;
     initMap();
+}
+function buttonSeeMapClicked(){
+	window.open(
+  './FullMap.php?choice='+choice,
+  '_blank' // <- This is what makes it open in a new window.
+);
+}
+function onEnded(){
+	x.currentTime = 0;
+	x.play();
 }
 </script>
 <script>
@@ -366,7 +452,14 @@ function buttonAllClicked() {
 </script>
 
 <script>
-	
+	var x = document.getElementById('siren');
+	x.loop = true;
+	/*x.addEventListener('ended', function() {
+				console.log('ended');
+				this.currentTime = 0;
+				this.play();
+			}, false);
+	*/
 	var boolVal1=false;
 	var ref1 = firebase.database().ref("alarm/1");                           
 	ref1.on("value", function(snapshot){
@@ -374,11 +467,19 @@ function buttonAllClicked() {
 		
 		var element1 = document.getElementById("v1");
 		
-		if(!boolVal1)
-		   element1.className= 'led-green'; // += ' blueClass'; to keep existing classes
-		else
-		   element1.className= 'led-red';
-		
+		if(!boolVal1){
+			element1.className= 'led-green'; // += ' blueClass'; to keep existing classes
+			x.currentTime = 0;
+			x.pause();
+		}
+		   
+		else{
+			element1.className= 'led-red';
+			console.log('red');
+			x.play();
+			x.currentTime = 0;
+			
+		}
 	});
 	
 	var boolVal2=false;
@@ -388,11 +489,20 @@ function buttonAllClicked() {
 		
 		var element2 = document.getElementById("v2");
 		
-		if(!boolVal2)
-		   element2.className= 'led-green'; // += ' blueClass'; to keep existing classes
-		else
-		   element2.className= 'led-red';
-		
+		if(!boolVal2){
+			element2.className= 'led-green'; // += ' blueClass'; to keep existing classes
+			x.currentTime = 0;
+			x.pause();
+			
+		}
+		else{
+			element2.className= 'led-red';
+			console.log('red');
+			x.play();
+			x.currentTime = 0;
+			
+		}
+		   
 	});
 
 	var boolVal3=false;
@@ -402,10 +512,16 @@ function buttonAllClicked() {
 		
 		var element3 = document.getElementById("v3");
 		
-		if(!boolVal3)
+		if(!boolVal3){
+			x.currentTime = 0;
+			x.pause();
 		   element3.className= 'led-green'; // += ' blueClass'; to keep existing classes
-		else
-		   element3.className= 'led-red';
+		}
+		else{
+			element3.className= 'led-red';
+			x.play();
+			x.currentTime = 0;
+		}
 		
 	});
 
@@ -416,11 +532,16 @@ function buttonAllClicked() {
 		
 		var element4 = document.getElementById("v4");
 		
-		if(!boolVal4)
-		   element4.className= 'led-green'; // += ' blueClass'; to keep existing classes
-		else
-		   element4.className= 'led-red';
-		
+		if(!boolVal4){
+			x.currentTime = 0;
+			x.pause();
+			element4.className= 'led-green'; // += ' blueClass'; to keep existing classes
+		}
+		else{
+			element4.className= 'led-red';
+			x.play();
+			x.currentTime = 0;
+		}
 	});	
 	
 	

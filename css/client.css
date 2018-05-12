@@ -1,5 +1,7 @@
 *{   margin:0; padding:0;}
-
+p{
+	font-size: 25;
+}
 body{
     background: white;
     box-sizing: border-box;
@@ -9,11 +11,8 @@ body{
     -webkit-user-select:none;
 }
 
-div.container{
-    width:100%;
-    position: relative;
+div.cont{
     border:1px solid b2b2b2;
-    float:left;
 }
 
 span.link{
@@ -65,27 +64,27 @@ span.link{
     border-bottom: 1px solid #e6e6e6;
 }
 
-div.container .msgpanel {
+div.cont .msgpanel {
     border: 1px solid red;
-    margin: auto;
+    margin: 10dp;
     background: white;
-    position: relative;
-    float: left;
-	left: 25%;
-    width: 50%;
+    //position: relative;
+    //float: left;
+	//left: 25%;
+    //width: 100%;
 	margin-top: 20px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-div.container .band{
-    width:100%;
+div.cont .band{
+   // width:100%;
     text-align: center;
     padding:1.5% 0 1.8% 0;
     border-bottom: 1px solid #e6e6e6
 }
 
-div.container .band .recname{
+div.cont .band .recname{
     font-weight: 500;
     font-size: 2em;
 }
@@ -93,8 +92,9 @@ div.container .band .recname{
 .msgdiv{
     position:fixed;
     top:93.3%;
-    width:50%;
-	left:25%;
+	margin: 5dp;
+    //width:50%;
+	//left:25%;
 	border: 1px solid blue;
 }
 
@@ -182,7 +182,6 @@ div.container .band .recname{
     font-family: SEGOE UI;
     border:none;
     outline:none;
-    border-left:1px solid #b2b2b2; 
     left:1%;
     font-size: 1em;
     color:black;
@@ -214,7 +213,7 @@ div#msgframe .loader{
     margin-top: 15%;
 }
 
-.container .nameband{
+.cont .nameband{
     font-size: 1.2em;
 }
 
@@ -233,3 +232,19 @@ div#msgframe .loader{
 ::-webkit-scrollbar-thumb:hover {
 	background-color: #376bfb; 
 }  
+
+.btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    margin-top: 5px;
+    padding: 2px;
+    width: 100%; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: RoyalBlue;
+}
